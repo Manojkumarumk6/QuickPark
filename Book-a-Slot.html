@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Book a Slot</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQWEK86WToA4J3deosmXm3nhJNEoANaVg&callback=initMap" async defer></script>
+</head>
+
+<body>
+
+    <!-- Your navigation and header here -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 offset-xl-3">
+                <div class="text-box mt-5 mb-5">
+                    <p class="mb-4">Select your parking option:</p>
+                    <form id="booking-form">
+                        <div class="mb-4 form-group">
+                            <label for="parkingType">Parking Type</label>
+                            <select class="form-control" id="parkingType" required>
+                                <option value="standard">Standard Parking</option>
+                                <option value="ev">EV Parking</option>
+                            </select>
+                        </div>
+                        <div class="mb-4 form-group">
+                            <label for="location">Location</label>
+                            <select class="form-control" id="location" required>
+                                <option value="inorbit-mall">Inorbit Mall</option>
+                                <option value="nexus-mall">Nexus Mall</option>
+                                <option value="shadab-restaurant">Shadab Restaurant</option>
+                                <option value="novotel">Novotel</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary form-control-submit-button">Check Availability</button>
+                    </form>
+
+                    <!-- Slot Availability Result -->
+                    <div id="availabilityResult" style="display: none;">
+                        <h4>Slot Availability: <span id="slotStatus"></span></h4>
+                        <div id="mapContainer" style="display: none;">
+                            <h5>Navigate to Parking</h5>
+                            <div id="map" style="height: 400px; width: 100%;"></div>
+                        </div>
+                        <div id="driverOption" style="display: none;">
+                            <button class="btn btn-warning form-control-submit-button" id="bookDriverBtn">Book a Driver</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="p-small">Copyright © Quick Park</p>
+        </div>
+    </footer>
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+
+    <script>
+        // Function to simulate slot checking
+        function checkSlotAvailability(parkingType, location) {
+            // Simulate availability based on parking type and location (for now, random)
+            return Math.random() > 0.5;
+        }
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 12.9716, lng: 77.5946 },
+                zoom: 14
+            });
+
+            var marker = new google.maps.Marker({
+                position: { lat: 12.9716, lng: 77.5946 },
+                map: map,
+                title: "Parking Location"
+            });
+        }
+
+        document.getElementById("booking-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var parkingType = document.getElementById("parkingType").value;
+            var location = document.getElementById("location").value;
+            var availability = checkSlotAvailability(parkingType, location);
+            var availabilityResult = document.getElementById("availabilityResult");
+            var slotStatus = document.getElementById("slotStatus");
+            var mapContainer = document.getElementById("mapContainer");
+            var driverOption = document.getElementById("driverOption");
+
+            availabilityResult.style.display = "block";
+
+            if (availability) {
+                slotStatus.textContent = "Available";
+                mapContainer.style.display = "block";
+                driverOption.style.display = "none";
+                initMap();
+            } else {
+                slotStatus.textContent = "Not Available";
+                mapContainer.style.display = "none";
+                driverOption.style.display = "block";
+            }
+        });
+
+        document.getElementById("bookDriverBtn").addEventListener("click", function () {
+            alert("Driver booked!");
+        });
+    </script>
+
+</body>
+
+</html>
